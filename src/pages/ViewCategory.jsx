@@ -58,7 +58,7 @@ const ViewCategory = () => {
           uid: '-1',
           name: record.media,
           status: 'done',
-          url: `https://epic-media-backend.onrender.com/uploads/${record.media}?t=${Date.now()}`,
+          url: `${baseURL}/${record.url}`,
         },
       ]);
     } else {
@@ -125,7 +125,7 @@ const ViewCategory = () => {
         media ?
           (
             <img
-              src={`https://epic-media-backend.onrender.com/uploads/${media}`}
+              src={`${baseURL}/${url}`}
               alt="Portfolio"
               style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'fit' }}
             />
