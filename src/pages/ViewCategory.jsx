@@ -121,17 +121,32 @@ const ViewCategory = () => {
       dataIndex: 'url',
       className: 'w-1/4',
       key: 'url',
-      render: (url) => (
-        url ?
-          (
-            <img
-              src={url}
-              alt="Portfolio"
-              style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'fit' }}
-            />
-          )
-          : 'N/A'
-      ),
+      render: (url) => {
+        if (!url) return 'N/A';
+
+        const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+        const isVideo = /\.(mp4|webm|ogg)$/i.test(url);
+
+        return (
+          <>
+            {isImage && (
+              <img
+                src={url}
+                alt="Media"
+                style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'cover' }}
+              />
+            )}
+            {isVideo && (
+              <video
+                src={url}
+                controls
+                style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'cover' }}
+              />
+            )}
+            {!isImage && !isVideo && 'Unsupported format'}
+          </>
+        );
+      },
     },
     {
       title: 'Action',
@@ -165,7 +180,7 @@ const ViewCategory = () => {
         onCancel={handleCancel}
       >
         <Form
-        form={form}
+          form={form}
           name="addCategory"
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 16 }}
