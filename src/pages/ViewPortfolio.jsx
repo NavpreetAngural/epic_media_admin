@@ -100,12 +100,12 @@ const ViewPortfolio = () => {
     {
       title: 'Image',
       className: 'w-1/4',
-      dataIndex: 'image',
-      key: 'image',
-      render: (image) =>
-        image ? (
+      dataIndex: 'url',
+      key: 'url',
+      render: (url) =>
+        url ? (
           <img
-            src={`${baseURL}/${url}`}
+            src={url}
             alt="Portfolio"
             style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'fit' }}
           />

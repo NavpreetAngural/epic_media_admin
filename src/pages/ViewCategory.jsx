@@ -118,14 +118,14 @@ const ViewCategory = () => {
     },
     {
       title: 'Media',
-      dataIndex: 'media',
+      dataIndex: 'url',
       className: 'w-1/4',
-      key: 'media',
-      render: (media) => (
-        media ?
+      key: 'url',
+      render: (url) => (
+        url ?
           (
             <img
-              src={`${baseURL}/${url}`}
+              src={url}
               alt="Portfolio"
               style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'fit' }}
             />
