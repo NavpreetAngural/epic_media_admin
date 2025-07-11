@@ -53,7 +53,7 @@ const ViewPortfolio = () => {
         uid: '-1',
         name: record.image,
         status: 'done',
-        url: `http://localhost:3000/uploads/${record.image}`,
+        url: `https://epic-media-backend.onrender.com/uploads/${record.image}`,
       },
     ]);
   };
@@ -105,7 +105,7 @@ const ViewPortfolio = () => {
       render: (image) =>
         image ? (
           <img
-            src={`http://localhost:3000/uploads/${image}`}
+            src={`https://epic-media-backend.onrender.com/uploads/${image}`}
             alt="Portfolio"
             style={{ width: 200, height: 100, borderRadius: 8, objectFit: 'fit' }}
           />

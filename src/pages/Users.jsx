@@ -67,7 +67,7 @@ const Users = () => {
       render: (dp) => (
         dp ? (
           <img
-            src={`http://localhost:3000/uploads/${dp}`}
+            src={`https://epic-media-backend.onrender.com/uploads/${dp}`}
             alt="Profile"
             style={{ width: 80, height: 80, borderRadius: '50%' }}
           />
