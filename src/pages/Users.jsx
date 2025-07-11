@@ -62,12 +62,12 @@ const Users = () => {
 
     {
       title: 'Profile Picture',
-      dataIndex: 'dp',
-      key: 'dp',
-      render: (dp) => (
-        dp ? (
+      dataIndex: 'url',
+      key: 'url',
+      render: (url) => (
+        url ? (
           <img
-            src={`https://epic-media-backend.onrender.com/uploads/${dp}`}
+            src={url}
             alt="Profile"
             style={{ width: 80, height: 80, borderRadius: '50%' }}
           />
