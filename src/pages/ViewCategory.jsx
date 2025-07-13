@@ -58,7 +58,7 @@ const ViewCategory = () => {
           uid: '-1',
           name: record.media,
           status: 'done',
-          url: `${baseURL}/${record.url}`,
+          url: record.url,
         },
       ]);
     } else {
