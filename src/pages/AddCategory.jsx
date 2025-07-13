@@ -79,8 +79,8 @@ const AddCategory = () => {
                             rules={[{ required: true, message: 'Please select a category!' }]}
                         >
                             <Select placeholder="Select Orientation">
-                                <Option value="potrait">Travel</Option>
-                                <Option value="landscape">Pre Wedding</Option>
+                                <Option value="potrait">Portrait</Option>
+                                <Option value="landscape">Landscape</Option>
                                 
                             </Select>
                         </Form.Item>
