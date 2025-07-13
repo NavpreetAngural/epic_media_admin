@@ -67,8 +67,9 @@ const AddCategory = () => {
                                 <Option value="Behind The Scene">Behind The Scene</Option>
                                 <Option value="Short Movies">Short Movies</Option>
                                 <Option value="Songs">Songs</Option>
-                                <Option value="Spiritual Captures">Spiritual Captures</Option>
-                                <Option value="Public Places">Public Places</Option>
+                                <Option value="Talk Show">Talk Shows</Option>
+                                <Option value="Product Shoots">Product Shoots </Option>
+                                <Option value="Feature Films">Feature Films </Option>
                             </Select>
                         </Form.Item>
 
