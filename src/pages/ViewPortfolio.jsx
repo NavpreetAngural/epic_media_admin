@@ -53,7 +53,7 @@ const ViewPortfolio = () => {
         uid: '-1',
         name: record.image,
         status: 'done',
-        url: `${baseURL}/${record.url}`,
+        url: record.url,
       },
     ]);
   };
