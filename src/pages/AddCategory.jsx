@@ -29,7 +29,7 @@ const AddCategory = () => {
 
         formData.append("cName", values.cName)
         formData.append("description", values.description)
-
+        formData.append("orientation", values.orientation)
         axios.post(`${baseURL}/category/add`, formData)
             .then((res) => {
                 {
@@ -79,7 +79,7 @@ const AddCategory = () => {
                             rules={[{ required: true, message: 'Please select Orientation!' }]}
                         >
                             <Select placeholder="Select Orientation">
-                                <Option value="potrait">Portrait</Option>
+                                <Option value="portrait">Portrait</Option>
                                 <Option value="landscape">Landscape</Option>
                                 
                             </Select>

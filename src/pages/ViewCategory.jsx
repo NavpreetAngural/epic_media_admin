@@ -49,6 +49,7 @@ const ViewCategory = () => {
     form.setFieldsValue({
       cName: record.cName,
       description: record.description,
+      orientation: record.orientation,
     });
 
     // Set fileList separately
@@ -72,32 +73,32 @@ const ViewCategory = () => {
     form.resetFields();
     setEditingUserId(null);
   };
+const onFinish = async (values) => {
+  const formData = new FormData();
 
-  const onFinish = async (values) => {
-    const formData = new FormData();
+  formData.append('cName', values.cName);
+  formData.append('description', values.description);
+  formData.append('orientation', values.orientation); // ✅ ADD THIS LINE
 
-    formData.append('cName', values.cName);
-    formData.append('description', values.description);
+  if (values.media && values.media.file && values.media.file.originFileObj) {
+    formData.append('media', values.media.file.originFileObj);
+  }
 
-    // Check if media is uploaded
-    if (values.media && values.media.file && values.media.file.originFileObj) {
-      formData.append('media', values.media.file.originFileObj);
-    }
+  try {
+    await axios.put(`${baseURL}/category/update/${editingUserId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-    try {
-      await axios.put(`${baseURL}/category/update/${editingUserId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    toast.success('Category updated successfully');
+    handleCancel();
+    fetchCategory();
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Something went wrong.');
+  }
+};
 
-      toast.success('Category updated successfully');
-      handleCancel();
-      fetchCategory();
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Something went wrong.');
-    }
-  };
 
 
   const columns = [
@@ -110,6 +111,11 @@ const ViewCategory = () => {
       title: 'Caregory Name',
       dataIndex: 'cName',
       key: 'cName',
+    },
+    {
+      title: 'Orientation',
+      dataIndex: 'orientation',
+      key: 'orientation',
     },
     {
       title: 'Description',
@@ -231,6 +237,19 @@ const ViewCategory = () => {
               <Button icon={<UploadOutlined />}>Upload Image or Video</Button>
             </Upload>
           </Form.Item>
+
+          <Form.Item
+            label="Orientation"
+            name="orientation"
+            rules={[{ required: true, message: 'Please select Orientation!' }]}
+          >
+            <Select placeholder="Select Orientation">
+              <Option value="portrait">Portrait</Option>
+              <Option value="landscape">Landscape</Option>
+
+            </Select>
+          </Form.Item>
+
 
           {/* Submit */}
           <Form.Item wrapperCol={{ span: 24 }}>
