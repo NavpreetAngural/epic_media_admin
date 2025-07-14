@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {
   Table
 } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { baseURL } from "../../config";
 import { toast } from 'react-toastify';
+import { Trash2 } from 'lucide-react';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${baseURL}/auth/viewall`);
+      const res = await axiosInstance.get(`${baseURL}/auth/viewall`);
       setUsers(res.data.data || []);
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -28,7 +28,7 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${baseURL}/auth/delete/${id}`);
+      await axiosInstance.delete(`${baseURL}/auth/delete/${id}`);
       setUsers((prev) => prev.filter((item) => item._id !== id));
       toast.success("User deleted successfully");
     } catch (error) {
@@ -90,7 +90,7 @@ const Users = () => {
             style={{ color: 'red', cursor: 'pointer' }}
             onClick={() => handleDelete(record._id)}
           >
-            Delete
+            <Trash2 color="#000000" strokeWidth={1.5} />
           </span>
         </>
       ),
@@ -106,7 +106,6 @@ const Users = () => {
           columns={columns}
           dataSource={users}
           rowKey="_id"
-          loading={loading}
           scroll={{ x: 'max-content' }}
           pagination={{ pageSize: 10 }}
         />

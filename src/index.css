@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* Corrected Ant Design class override */
+.ant-upload-list-item-name {
+  max-width: 200px;              /* ✅ truncate width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}

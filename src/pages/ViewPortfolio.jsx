@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   Form, Modal, Table, Button, Select, Upload
 } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { baseURL } from '../../config';
 import { toast } from 'react-toastify';
 import { UploadOutlined } from '@ant-design/icons';
+import { Pencil, Trash2 } from 'lucide-react';
 
 const { Option } = Select;
 
@@ -15,11 +16,12 @@ const ViewPortfolio = () => {
   const [editingUserId, setEditingUserId] = useState(null);
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
+  
 
   // Fetch portfolio entries
   const fetchPortfolio = async () => {
     try {
-      const res = await axios.get(`${baseURL}/portfolio/view`);
+      const res = await axiosInstance.get(`${baseURL}/portfolio/view`);
       setPortfolio(res.data.data);
     } catch (err) {
       console.error('Error fetching Portfolio:', err);
@@ -33,7 +35,7 @@ const ViewPortfolio = () => {
   // Delete portfolio
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${baseURL}/portfolio/delete/${id}`);
+      await axiosInstance.delete(`${baseURL}/portfolio/delete/${id}`);
       setPortfolio((prev) => prev.filter((item) => item._id !== id));
       toast.success('Portfolio deleted successfully');
     } catch (error) {
@@ -77,7 +79,7 @@ const ViewPortfolio = () => {
     }
 
     try {
-      await axios.put(`${baseURL}/portfolio/update/${editingUserId}`, formData, {
+      await axiosInstance.put(`${baseURL}/portfolio/update/${editingUserId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -123,18 +125,20 @@ const ViewPortfolio = () => {
       key: 'action',
       render: (_, record) => (
         <>
-          <span
-            style={{ color: 'blue', cursor: 'pointer', marginRight: 10 }}
-            onClick={() => handleEdit(record)}
-          >
-            Edit
-          </span>
-          <span
-            style={{ color: 'red', cursor: 'pointer' }}
-            onClick={() => handleDelete(record._id)}
-          >
-            Delete
-          </span>
+          <div className='flex gap-5'>
+            <span
+              style={{ color: 'blue', cursor: 'pointer', marginRight: 10 }}
+              onClick={() => handleEdit(record)}
+            >
+              <Pencil color="#000000" strokeWidth={1.5} />
+            </span>
+            <span
+              style={{ color: 'red', cursor: 'pointer' }}
+              onClick={() => handleDelete(record._id)}
+            >
+              <Trash2 color="#000000" strokeWidth={1.5} />
+            </span>
+          </div>
         </>
       ),
     },
@@ -161,7 +165,7 @@ const ViewPortfolio = () => {
           <Form.Item
             label="Portfolio Image"
             name="image"
-            rules={[{message: 'Please upload an image!' }]}
+            rules={[{ message: 'Please upload an image!' }]}
           >
             <Upload
               fileList={fileList}
@@ -195,7 +199,7 @@ const ViewPortfolio = () => {
 
       <div style={{ overflowX: 'auto' }}>
         <Table
-          className="m-5"
+          className="m-5 "
           columns={columns}
           dataSource={portfolio}
           rowKey="_id"

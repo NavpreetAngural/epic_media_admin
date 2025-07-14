@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Modal, Table, Input, Button, DatePicker, Select, Upload } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { baseURL } from "../../config";
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Pencil, Trash2 } from 'lucide-react';
 
 const { Option } = Select;
 
@@ -20,7 +21,7 @@ const ViewCategory = () => {
 
   const fetchCategory = async () => {
     try {
-      const res = await axios.get(`${baseURL}/category/view`);
+      const res = await axiosInstance.get(`${baseURL}/category/view`);
       setCategory(res.data.data);
     } catch (err) {
       console.error("Error fetching Category:", err);
@@ -33,7 +34,7 @@ const ViewCategory = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${baseURL}/category/delete/${id}`);
+      await axiosInstance.delete(`${baseURL}/category/delete/${id}`);
       setCategory(prev => prev.filter(item => item._id !== id));
       toast.success("Category deleted successfully");
     } catch (error) {
@@ -73,31 +74,31 @@ const ViewCategory = () => {
     form.resetFields();
     setEditingUserId(null);
   };
-const onFinish = async (values) => {
-  const formData = new FormData();
+  const onFinish = async (values) => {
+    const formData = new FormData();
 
-  formData.append('cName', values.cName);
-  formData.append('description', values.description);
-  formData.append('orientation', values.orientation); // ✅ ADD THIS LINE
+    formData.append('cName', values.cName);
+    formData.append('description', values.description);
+    formData.append('orientation', values.orientation); // ✅ ADD THIS LINE
 
-  if (values.media && values.media.file && values.media.file.originFileObj) {
-    formData.append('media', values.media.file.originFileObj);
-  }
+    if (values.media && values.media.file && values.media.file.originFileObj) {
+      formData.append('media', values.media.file.originFileObj);
+    }
 
-  try {
-    await axios.put(`${baseURL}/category/update/${editingUserId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    try {
+      await axiosInstance.put(`${baseURL}/category/update/${editingUserId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-    toast.success('Category updated successfully');
-    handleCancel();
-    fetchCategory();
-  } catch (error) {
-    toast.error(error.response?.data?.message || 'Something went wrong.');
-  }
-};
+      toast.success('Category updated successfully');
+      handleCancel();
+      fetchCategory();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Something went wrong.');
+    }
+  };
 
 
 
@@ -159,18 +160,20 @@ const onFinish = async (values) => {
       key: 'action',
       render: (_, record) => (
         <>
-          <span
-            style={{ color: 'blue', cursor: 'pointer', marginRight: 10 }}
-            onClick={() => handleEdit(record)}
-          >
-            Edit
-          </span>
-          <span
-            style={{ color: 'red', cursor: 'pointer' }}
-            onClick={() => handleDelete(record._id)}
-          >
-            Delete
-          </span>
+          <div className='flex gap-2'>
+            <span
+              style={{ color: 'blue', cursor: 'pointer', marginRight: 10 }}
+              onClick={() => handleEdit(record)}
+            >
+              <Pencil color="#000000" strokeWidth={1.5} />
+            </span><br />
+            <span
+              style={{ color: 'red', cursor: 'pointer' }}
+              onClick={() => handleDelete(record._id)}
+            >
+              <Trash2 color="#000000" strokeWidth={1.5} />
+            </span>
+          </div>
         </>
       ),
     },

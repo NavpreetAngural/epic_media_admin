@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router';
 import { baseURL } from '../../config';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { toast } from 'react-toastify';
 
 import { Button, Form, Input, Upload, Select } from 'antd';
@@ -30,7 +30,7 @@ const AddCategory = () => {
         formData.append("cName", values.cName)
         formData.append("description", values.description)
         formData.append("orientation", values.orientation)
-        axios.post(`${baseURL}/category/add`, formData)
+        axiosInstance.post(`${baseURL}/category/add`, formData)
             .then((res) => {
                 {
                     toast.success(res.data.msg);

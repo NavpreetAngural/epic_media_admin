@@ -10,6 +10,7 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { Link, Outlet } from 'react-router';
+import logo from "../../src/assets/images/logo.jpg"
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -79,6 +80,7 @@ const Home = () => {
         </Header>
 
         <Content
+          id="content-area" className="content-area"
           style={{
             margin: '16px',
             padding: '16px',
@@ -88,8 +90,13 @@ const Home = () => {
           <Outlet />
         </Content>
 
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        <Footer style={{ textAlign: 'center' }} className='flex w-full items-center justify-center'>
+          <div className='flex gap-2 justify-center items-center'>
+            <span>
+              Created by EPIC MEDIA ©{new Date().getFullYear()}
+            </span>
+            <img src={logo} alt="logo" className='h-[30px] w-[30px] rounded-full' />
+          </div>
         </Footer>
       </Layout>
     </Layout>

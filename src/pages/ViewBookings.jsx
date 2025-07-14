@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Select } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { baseURL } from "../../config";
 import { toast } from 'react-toastify';
+import { Check, Trash2, X } from 'lucide-react';
 
 const { Option } = Select;
 
 const ViewBookings = () => {
   const [bookings, setBookings] = useState([]);
+  
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${baseURL}/booking/viewall`);
+      const res = await axiosInstance.get(`${baseURL}/booking/viewall`);
       setBookings(res.data.data);
     } catch (err) {
       console.error("Error fetching bookings:", err);
@@ -24,7 +26,7 @@ const ViewBookings = () => {
 
   const handleStatusChange = async (value, record) => {
     try {
-      const res = await axios.put(`${baseURL}/booking/update/${record._id}`, {
+      const res = await axiosInstance.put(`${baseURL}/booking/update/${record._id}`, {
         status: value
       });
 
@@ -42,7 +44,16 @@ const ViewBookings = () => {
     }
   };
 
-
+  const handleDelete = async (id) => {
+    try {
+      await axiosInstance.delete(`${baseURL}/booking/delete/${id}`)
+      setBookings(prev => prev.filter(item => item._id !== id));
+      toast.success("Booking deleted successfully");
+    }
+    catch (err) {
+      toast.error("Booking deleted Failed");
+    }
+  }
 
   const columns = [
     {
@@ -87,11 +98,35 @@ const ViewBookings = () => {
           onChange={(value) => handleStatusChange(value, record)}
         >
           <Select.Option value="pending">Pending</Select.Option>
-          <Select.Option value="accepted">Accepted</Select.Option>
-          <Select.Option value="rejected">Rejected</Select.Option>
+          <Select.Option value="accepted">
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Check color="#04ff00" size={16} />
+              Accepted
+            </span>
+          </Select.Option>
+          <Select.Option value="rejected">
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <X color="#ff0000" size={16} />
+              Rejected
+            </span>
+          </Select.Option>
         </Select>
       )
-    }
+    },
+    {
+      title: 'Delete',
+      key: 'delete',
+      render: (_, record) => (
+        <>
+          <span
+            style={{ color: 'red', cursor: 'pointer' }}
+            onClick={() => handleDelete(record._id)}
+          >
+            <Trash2 color="#000000" strokeWidth={1.5} />
+          </span>
+        </>
+      ),
+    },
 
   ];
 

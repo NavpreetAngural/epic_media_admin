@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Modal, Table, Input, Button, DatePicker, Select } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../instance';
 import { baseURL } from "../../config";
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import { Trash2 } from 'lucide-react';
 
 const { Option } = Select;
 
 const ViewIdeas = () => {
   const [ideas, setIdeas] = useState([]);
+  
 
   const fetchIdeas = async () => {
     try {
-      const res = await axios.get(`${baseURL}/story/viewall`);
+      const res = await axiosInstance.get(`${baseURL}/story/viewall`);
       setIdeas(res.data.data);
     } catch (err) {
       console.error("Error fetching bookings:", err);
@@ -25,7 +27,7 @@ const ViewIdeas = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${baseURL}/story/delete/${id}`);
+      await axiosInstance.delete(`${baseURL}/story/delete/${id}`);
       setIdeas(prev => prev.filter(item => item._id !== id));
       toast.success("Idea deleted successfully");
     } catch (error) {
@@ -69,7 +71,7 @@ const ViewIdeas = () => {
             style={{ color: 'red', cursor: 'pointer' }}
             onClick={() => handleDelete(record._id)}
           >
-            Delete
+            <Trash2 color="#000000" strokeWidth={1.5} />
           </span>
         </>
       ),
