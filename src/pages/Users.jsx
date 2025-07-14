@@ -12,13 +12,11 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      setLoading(true);
       const res = await axiosInstance.get(`${baseURL}/auth/viewall`);
       setUsers(res.data.data || []);
     } catch (err) {
       console.error("Error fetching users:", err);
     } finally {
-      setLoading(false);
     }
   };
 
